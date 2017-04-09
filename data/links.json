@@ -1,3 +1,8 @@
 [
-    { "sourceCountry": "USA", "targetCountry": "UK", "year": 0, "value": 197 }
+    { "id": 1, "source_country": "USA", "target_country": "UK", "year": 0, "value": 62 },
+    { "id": 2, "source_country": "USA", "target_country": "Canada", "year": 0, "value": 30 },
+    { "id": 3, "source_country": "USA", "target_country": "France", "year": 0, "value": 20 },
+    { "id": 4, "source_country": "UK", "target_country": "Canada", "year": 0, "value": 11 },
+    { "id": 5, "source_country": "UK", "target_country": "France", "year": 0, "value": 16 },
+    { "id": 6, "source_country": "France", "target_country": "Canada", "year": 0, "value": 6 }
 ]

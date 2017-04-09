@@ -8,10 +8,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      sourceCountry: {
+      source_country: {
         type: Sequelize.STRING
       },
-      targetCountry: {
+      target_country: {
         type: Sequelize.STRING
       },
       year: {
@@ -22,13 +22,6 @@ module.exports = {
       }
     });
   },
-  /*
-  up: function (queryInterface, Sequelize) {
-    const LinksData = require('../../data/links.json');
-    return [
-      queryInterface.bulkInsert('Links', LinksData)];
-  },
-  */
   down: function(queryInterface, Sequelize) {
     return queryInterface.dropTable('Links');
   }

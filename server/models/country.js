@@ -7,18 +7,17 @@ module.exports = function(sequelize, DataTypes) {
     },
     continent: DataTypes.STRING
   }, {
+    timestamps: false,
     classMethods: {
       associate: function(models) {
         // associations can be defined here
         Country.hasMany(
             models.Link,
-            { as: 'SourceLinks' },
-            { foreignKey: 'sourceCountry' }
+            { foreignKey: 'source_country' }
         );
         Country.hasMany(
             models.Link,
-            { as: 'TargetLinks' },
-            { foreignKey: 'targetCountry' }
+            { foreignKey: 'target_country' }
         );
       }
     }
