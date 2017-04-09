@@ -1,0 +1,1 @@
+node node_modules/sequelize-cli/bin/sequelize %*
