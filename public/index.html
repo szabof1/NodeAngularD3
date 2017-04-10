@@ -1,12 +1,50 @@
 <!doctype html>
-<html ng-app>
-  <head>
+<html>
+
+<head>
     <title>My AngularJS App</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
-  </head>
-  <body>
-      <div class="container-fluid" ng-init="hello='World'">
-          <h1>Hi, {{ hello }}</h1>
-      </div>
-  </body>
+</head>
+
+<body>
+    <div ng-app="myApp" ng-controller="formCtrl" class="container-fluid">
+        <h1>Hi, {{ hello }}</h1>
+        <form>
+            Year:<br/>
+            <input type="text" ng-model="year"> <button ng-click="requestData()">Submit</button>
+            <br/> {{ year }}
+            <br/> {{ countries }}
+            <br/> {{ links }}
+        </form>
+    </div>
+    
+    <script>
+        const app = angular.module('myApp', []);
+        app.controller('formCtrl', ($scope, $http) => {
+            $scope.hello = 'World';
+            $scope.countries = [];
+            $scope.links = [];
+
+            $scope.requestData = () => {
+                const year = $scope.year || "0";
+                console.log("requestData for year " + year);
+                $http.get("http://localhost:3000/data/countries/" + year)
+                .then((response) => {
+                    $scope.countries = response.data;
+                })
+                .then(() => $http.get("http://localhost:3000/data/links/" + year))
+                .then((response) => {
+                    $scope.links = response.data;
+                })
+                .catch(err => {
+                    console.log(err);
+                    $scope.countries = [];
+                    $scope.links = [];
+                });
+            };
+        });
+    </script>
+
+</body>
+
 </html>
