@@ -15,10 +15,15 @@ module.exports = {
 };
 
 /*
-INSERT INTO "Links" (source_country, target_country, year, value) VALUES ('USA', 'UK', 0, 62);
-INSERT INTO "Links" (source_country, target_country, year, value) VALUES ('USA', 'Canada', 0, 30);
-INSERT INTO "Links" (source_country, target_country, year, value) VALUES ('USA', 'France', 0, 20);
-INSERT INTO "Links" (source_country, target_country, year, value) VALUES ('UK', 'Canada', 0, 11);
-INSERT INTO "Links" (source_country, target_country, year, value) VALUES ('UK', 'France', 0, 16);
+INSERT INTO "Links" (source_country, target_country, year, value) VALUES ('United States', 'United Kingdom', 0, 62);
+INSERT INTO "Links" (source_country, target_country, year, value) VALUES ('United States', 'Canada', 0, 30);
+INSERT INTO "Links" (source_country, target_country, year, value) VALUES ('United States', 'France', 0, 20);
+INSERT INTO "Links" (source_country, target_country, year, value) VALUES ('United Kingdom', 'Canada', 0, 11);
+INSERT INTO "Links" (source_country, target_country, year, value) VALUES ('United Kingdom', 'France', 0, 16);
 INSERT INTO "Links" (source_country, target_country, year, value) VALUES ('France', 'Canada', 0, 6);
+INSERT INTO "Links" (source_country, target_country, year, value) VALUES ('United States', 'United Kingdom', 2014, 3);
+INSERT INTO "Links" (source_country, target_country, year, value) VALUES ('United States', 'Canada', 2014, 2);
+INSERT INTO "Links" (source_country, target_country, year, value) VALUES ('United States', 'France', 2014, 1);
+INSERT INTO "Links" (source_country, target_country, year, value) VALUES ('United Kingdom', 'Canada', 2014, 2);
+INSERT INTO "Links" (source_country, target_country, year, value) VALUES ('United Kingdom', 'France', 2014, 1);
 */
