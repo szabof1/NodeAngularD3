@@ -22,7 +22,6 @@ fs
   .forEach(function(file) {
     if (file.slice(-3) !== '.js') return;
     var model = sequelize['import'](path.join(__dirname, file));
-    console.log(`Reading model '${model.name || model}'`);
     db[model.name] = model;
   });
 
