@@ -7,8 +7,6 @@ module.exports = {
         delete props.id;
         return props;
     });
-    console.log("# LinksData:");
-    console.log(LinksData);
     return [
       queryInterface.bulkInsert('Links', LinksData)]; // { individualHooks: true } // {returning: true}
   }
