@@ -1,7 +1,7 @@
 {
   "name": "NodeAngularD3",
   "version": "1.0.0",
-  "description": "",
+  "description": "Simple AngularJS App Showing a D3 Graph. The data are stored in a Postgres database and served by a Node.js-Express.js backend using Sequelize ORM.",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
@@ -13,7 +13,6 @@
   "dependencies": {
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
-    "morgan": "^1.8.1",
     "pg": "^6.1.5",
     "pg-hstore": "^2.3.2",
     "sequelize": "^3.30.4",

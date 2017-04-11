@@ -2,49 +2,76 @@
 <html>
 
 <head>
-    <title>My AngularJS App</title>
+    <title>Simple AngularJS App Showing a D3 Graph</title>
+
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+
+    <!-- jQuery is required by Bootstrap -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- Bootstrap's latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Bootstrap's latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="./myStyles.css">
 </head>
 
 <body>
-    <div ng-app="myApp" ng-controller="formCtrl" class="container-fluid">
-        <h1>Hi, {{ hello }}</h1>
-        <form>
-            Year:<br/>
-            <input type="text" ng-model="year"> <button ng-click="requestData()">Submit</button>
-            <br/> {{ year }}
-            <br/> {{ countries }}
-            <br/> {{ links }}
-        </form>
+    <div ng-app="myApp" ng-controller="formCtrl" class="container" >
+
+        <div class="row">
+            <div class="col-xs-12">
+                <h2>Simple AngularJS App Showing a D3 Graph</h2>
+                <p>
+                    This is a very simple AngularJS v1.5 app that shows correlations of countries
+                    where movies were made in a cooproduction of different countries. (Data are extracted from the International Movie Database, IMDB.)
+                    You can filter the data by year of production.<br/>
+                    Filtered data are visualized in a D3 graph.<br/>
+                    The data are stored in a Postgres database and served by a Node.js-Express.js backend using Sequelize ORM.
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-xs-4">
+                <form>
+                    Year:<br/>
+                    <input type= "text" ng-model="year"> <button ng-click="requestData()"> Get data </button>
+                    <div class="small">
+                        <!--
+                            The following two elements cause
+                            error "Uncaught TypeError: e[b] is not a function..."
+                            for the very first time only
+                        -->
+                        <div ng-if="countries.length>0"
+                            class="info info-countries"
+                            data-placement="auto top"
+                            title="Countries found"
+                            onmouseenter="$(this).tooltip('Countries found')">
+                            {{ countries }}
+                        </div>
+                        <div ng-if="links.length>0"
+                            class="info info-links"
+                            data-placement="auto top"
+                            title="Links between countries found"
+                            onmouseenter="$(this).tooltip('Links between countries found')">
+                            {{ links }}
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-xs-8">
+                <svg width="600" height="400"></svg>
+            </div>
+
+        </div>
+
+        <script type="text/javascript" src="app.js"></script>
+
     </div>
-    
-    <script>
-        const app = angular.module('myApp', []);
-        app.controller('formCtrl', ($scope, $http) => {
-            $scope.hello = 'World';
-            $scope.countries = [];
-            $scope.links = [];
-
-            $scope.requestData = () => {
-                const year = $scope.year || "0";
-                console.log("requestData for year " + year);
-                $http.get("http://localhost:3000/data/countries/" + year)
-                .then((response) => {
-                    $scope.countries = response.data;
-                })
-                .then(() => $http.get("http://localhost:3000/data/links/" + year))
-                .then((response) => {
-                    $scope.links = response.data;
-                })
-                .catch(err => {
-                    console.log(err);
-                    $scope.countries = [];
-                    $scope.links = [];
-                });
-            };
-        });
-    </script>
-
 </body>
 
 </html>
