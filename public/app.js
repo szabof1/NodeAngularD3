@@ -1,6 +1,37 @@
 const app = angular.module('myApp', []);
 
-const d3graph = (graph) => {
+app.controller('formCtrl', ($scope, $http) => {
+    $scope.requestData = () => {
+        const year = $scope.year || "0";
+        console.info("requestData for year " + year);
+        $http.get("http://localhost:3000/data/countries/" + year)
+            .then((response) => {
+                $scope.countries = response.data;
+            })
+            .then(() => $http.get("http://localhost:3000/data/links/" + year))
+            .then((response) => {
+                $scope.links = response.data;
+            })
+            .then(() => {
+                const d3Data = {};
+                d3Data.nodes = $scope.countries.map(c => ({ id: c.country, value: c.continent, color: getContinentColor(c.continent) }));
+                d3Data.links = $scope.links.map(c => ({ id: c.id, source: c.source_country, target: c.target_country, value: c.value }));
+                d3Graph(d3Data);
+            })
+            .catch(err => {
+                console.error(err);
+                $scope.countries = [];
+                $scope.links = [];
+            });
+    };
+});
+
+function getContinentColor(continent) {
+    return ({"Europe": 1, "North America": 2, "South America": 3,
+        "Asia": 4, "Africa": 5, "Oceania": 6})[continent];
+}
+
+function d3Graph(graph) {
 
     const svg = d3.select("svg"),
         width = +svg.attr("width"),
@@ -74,34 +105,3 @@ const d3graph = (graph) => {
     }
 
 }
-
-function getContinentColor(continent) {
-    return ({"Europe": 1, "North America": 2, "South America": 3,
-        "Asia": 4, "Africa": 5, "Oceania": 6})[continent];
-}
-
-app.controller('formCtrl', ($scope, $http) => {
-    $scope.requestData = () => {
-        const year = $scope.year || "0";
-        console.info("requestData for year " + year);
-        $http.get("http://localhost:3000/data/countries/" + year)
-            .then((response) => {
-                $scope.countries = response.data;
-            })
-            .then(() => $http.get("http://localhost:3000/data/links/" + year))
-            .then((response) => {
-                $scope.links = response.data;
-            })
-            .then(() => {
-                const d3Data = {};
-                d3Data.nodes = $scope.countries.map(c => ({ id: c.country, value: c.continent, color: getContinentColor(c.continent) }));
-                d3Data.links = $scope.links.map(c => ({ id: c.id, source: c.source_country, target: c.target_country, value: c.value }));
-                d3graph(d3Data);
-            })
-            .catch(err => {
-                console.error(err);
-                $scope.countries = [];
-                $scope.links = [];
-            });
-    };
-});
