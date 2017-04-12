@@ -11,3 +11,9 @@ The data are stored in a Postgres database and served by a Node.js-Express.js ba
 - node_modules/.bin/sequelize db:seed:all
 - npm start
 - open app in browser: http://localhost:3000
+
+## Open issues
+- `Uncaught TypeError: e[b] is not a function...` error in browser console
+- Link seeder didn't load links.json data so I switched to use postgres (pg) module instead of sequelize for seed data loading
+- `Unhandled rejection SequelizeUniqueConstraintError: Validation error...` in console when running seeders (sequelize db:seed:all)
+- Links seeder doesn't stop
