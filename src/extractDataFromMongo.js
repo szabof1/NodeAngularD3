@@ -2,6 +2,8 @@
 
 const MongoClient = require('mongodb').MongoClient;
 const pg = require('pg');
+const fs = require('fs');
+const path = require('path');
 
 const links = {};
 
@@ -44,8 +46,8 @@ MongoClient.connect("mongodb://localhost:27017/video")
     .then((finalLinks) => {
         console.log(JSON.stringify(finalLinks, null, 2), '\n', finalLinks.length);
 
-        const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/graph';
-        //const connectionString = process.env.DATABASE_URL || 'postgres://YourUserName:YourPassword@localhost:5432/graph';
+        //const connectionString = process.env.DATABASE_URL || 'postgres://localhost:5432/graph';
+        const connectionString = process.env.DATABASE_URL || 'postgres://YourUserName:YourPassword@localhost:5432/graph';
 
         pg.connect(connectionString, (err, client, done) => {
             if (err) {
@@ -56,8 +58,14 @@ MongoClient.connect("mongodb://localhost:27017/video")
 
             // Insert Data
             finalLinks.forEach(link => {
+                const sql = 'INSERT INTO "Links" ("source_country", "target_country", "year", "value") ' +
+                `VALUES ('${getCorrectedCountryName(link.source_country)}', '${getCorrectedCountryName(link.target_country)}', ${link.year}, ${link.value});`;
+                fs.appendFile(path.join(__dirname, '..', 'data', 'links.sql'), sql + '\n', function (err) {
+                    if (err) return console.log(err);
+                    console.log(sql);
+                });
                 client.query('INSERT INTO "Links" (source_country, target_country, year, value) VALUES ($1, $2, $3, $4)',
-                    [link.source_country, link.target_country, link.year, link.value]);
+                    [getCorrectedCountryName(link.source_country), getCorrectedCountryName(link.target_country), link.year, link.value]);
             });
 
             console.log("DONE");
@@ -115,3 +123,18 @@ function compareArr(a, b) {
   }
   return 0;
 }
+
+function getCorrectedCountryName(country) {
+    const changedCountryName = ({
+        "USA": "United States",
+        "UK": "United Kingdom",
+        "Russia": "Russian Federation",
+        "South Korea": "Korea, South",
+        "North Korea": "Korea, North",
+        "Republic of Macedonia": "Macedonia",
+        "Côte d'Ivoire": "Ivory Coast"
+    })[country];
+    return (changedCountryName) ? changedCountryName : country;
+}
+
+// Select * from "Countries" Where "country"='Côte d'Ivoire' or "country"='Ivory Coast';

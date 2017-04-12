@@ -22,6 +22,7 @@ app.controller('formCtrl', ($scope, $http) => {
                 console.error(err);
                 $scope.countries = [];
                 $scope.links = [];
+                d3.selectAll("svg > *").remove();
             });
     };
 });
@@ -31,11 +32,18 @@ function getContinentColor(continent) {
         "Asia": 4, "Africa": 5, "Oceania": 6})[continent];
 }
 
+// In case of too many nodes/edges there is an error "Uncaught TypeError: Cannot create property 'vx' on string 'Taiwan'"
 function d3Graph(graph) {
+    d3.selectAll("svg > *").remove();
 
-    const svg = d3.select("svg"),
-        width = +svg.attr("width"),
-        height = +svg.attr("height");
+    if (graph.nodes.length === 0 || graph.links.length === 0) {
+        return;
+    }
+
+    const svg = d3.select("svg");
+    //if (!svg) svg = d3.selectAll(".svg-placeholder").append("svg", { width: "600", height:"400" });
+    const width = +svg.attr("width");
+    const height = +svg.attr("height");
 
     const color = d3.scaleOrdinal(d3.schemeCategory20);
 
